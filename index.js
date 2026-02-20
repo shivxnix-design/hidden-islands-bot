@@ -3,7 +3,7 @@ require('dotenv').config();
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const speciesList = require('./data/species.json');
 
-const GUILD_ID = '1400260997385818207'; // change this to the new server ID if needed
+const GUILD_ID = '1462820607761715409'; // replace with your new server ID
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds]
@@ -20,7 +20,7 @@ client.once('ready', async () => {
         return;
     }
 
-    // Delete existing rollmutation commands
+    // Delete any existing /rollmutation commands in this guild
     const commands = await guild.commands.fetch();
     for (const cmd of commands.values()) {
         if (cmd.name === 'rollmutation') {
@@ -97,7 +97,9 @@ client.on('interactionCreate', async interaction => {
 
         // 5% mutation chance
         const roll = Math.random();
+
         if (roll <= 0.05) {
+            // Mutation success embed
             const mutations = [
                 { name: "Albino", image: "https://cdn.discordapp.com/attachments/1462828823551934527/1474165187886977074/Albino.jpg" },
                 { name: "Melanistic", image: "https://cdn.discordapp.com/attachments/1462828823551934527/1474165188470243483/Melan.jpg" },
@@ -107,7 +109,7 @@ client.on('interactionCreate', async interaction => {
             const mutation = mutations[Math.floor(Math.random() * mutations.length)];
 
             const embed = new EmbedBuilder()
-                .setTitle(`${dinoName} rolled a mutation!`)
+                .setTitle(`🧬 ${dinoName} rolled a mutation!`)
                 .setDescription(`Species: **${species}**\nMutation: **${mutation.name}**`)
                 .setImage(mutation.image)
                 .setColor(0x00ff00);
@@ -115,10 +117,11 @@ client.on('interactionCreate', async interaction => {
             return interaction.reply({ embeds: [embed] });
 
         } else {
-            // Embedded "No mutation" response
+            // No mutation embed with emoji and thumbnail
             const embed = new EmbedBuilder()
-                .setTitle(`${dinoName} rolled no mutation`)
+                .setTitle(`🧬 ${dinoName} rolled no mutation`)
                 .setDescription(`Species: **${species}**\nBetter luck next time!`)
+                .setThumbnail('https://cdn.discordapp.com/attachments/1462828823551934527/1474165187886977074/Albino.jpg') // matches style
                 .setColor(0xff0000);
 
             return interaction.reply({ embeds: [embed] });
