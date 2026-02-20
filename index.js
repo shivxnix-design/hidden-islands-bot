@@ -21,6 +21,7 @@ client.once('ready', async () => {
         return;
     }
 
+    // Delete existing guild mutation commands
     const commands = await guild.commands.fetch();
     for (const cmd of commands.values()) {
         if (cmd.name === 'mutation') {
@@ -28,6 +29,7 @@ client.once('ready', async () => {
         }
     }
 
+    // Register fresh guild command
     await guild.commands.create({
         name: 'mutation',
         description: 'Roll a mutation for your dinosaur',
@@ -53,6 +55,7 @@ client.once('ready', async () => {
 
 client.on('interactionCreate', async interaction => {
 
+    // AUTOCOMPLETE
     if (interaction.isAutocomplete()) {
         if (interaction.commandName === 'mutation') {
             const focused = interaction.options.getFocused();
@@ -73,6 +76,7 @@ client.on('interactionCreate', async interaction => {
         return;
     }
 
+    // COMMAND EXECUTION
     if (!interaction.isChatInputCommand()) return;
 
     if (interaction.commandName === 'mutation') {
@@ -82,8 +86,9 @@ client.on('interactionCreate', async interaction => {
 
         const key = `${interaction.user.id}-${species}`;
         const now = Date.now();
-        const cooldownTime = 30 * 60 * 1000;
+        const cooldownTime = 30 * 60 * 1000; // 30 minutes
 
+        // Cooldown check
         if (cooldowns.has(key)) {
             const expiration = cooldowns.get(key) + cooldownTime;
 
@@ -96,8 +101,10 @@ client.on('interactionCreate', async interaction => {
             }
         }
 
+        // Set cooldown
         cooldowns.set(key, now);
 
+        // 5% mutation chance
         const roll = Math.random();
 
         if (roll <= 0.05) {
@@ -118,9 +125,13 @@ client.on('interactionCreate', async interaction => {
             return interaction.reply({ embeds: [embed] });
 
         } else {
-            return interaction.reply(
-                `${dinoName} (${species}) did not roll a mutation.`
-            );
+            // Embedded "No mutation" response
+            const embed = new EmbedBuilder()
+                .setTitle(`${dinoName} rolled no mutation`)
+                .setDescription(`Species: **${species}**\nBetter luck next time!`)
+                .setColor(0xff0000);
+
+            return interaction.reply({ embeds: [embed] });
         }
     }
 });
