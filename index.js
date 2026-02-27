@@ -120,7 +120,7 @@ client.on('interactionCreate', async interaction => {
 
             // NO IMAGE HERE
             const embed = new EmbedBuilder()
-                .setTitle(`🧬 ${dinoName} rolled no mutation (V2)`)
+                .setTitle(`🧬 ${dinoName} rolled no mutation`)
                 .setDescription(`Species: **${species}**\nBetter luck next time!`)
                 .setColor(0xff0000);
 
