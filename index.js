@@ -3,7 +3,7 @@ require('dotenv').config();
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const speciesList = require('./data/species.json');
 
-const GUILD_ID = '1462820607761715409'; // replace with your new server ID
+const GUILD_ID = '1462820607761715409';
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds]
@@ -12,7 +12,7 @@ const client = new Client({
 const cooldowns = new Map();
 
 client.once('ready', async () => {
-    console.log(`${client.user.tag} is online!`);
+    console.log(`${client.user.tag} is online! VERSION 2 - NO THUMBNAIL`);
 
     const guild = client.guilds.cache.get(GUILD_ID);
     if (!guild) {
@@ -99,7 +99,7 @@ client.on('interactionCreate', async interaction => {
         const roll = Math.random();
 
         if (roll <= 0.05) {
-            // Mutation success embed
+
             const mutations = [
                 { name: "Albino", image: "https://cdn.discordapp.com/attachments/1462828823551934527/1474165187886977074/Albino.jpg" },
                 { name: "Melanistic", image: "https://cdn.discordapp.com/attachments/1462828823551934527/1474165188470243483/Melan.jpg" },
@@ -117,11 +117,11 @@ client.on('interactionCreate', async interaction => {
             return interaction.reply({ embeds: [embed] });
 
         } else {
-            // No mutation embed with emoji and thumbnail
+
+            // NO IMAGE HERE
             const embed = new EmbedBuilder()
-                .setTitle(`🧬 ${dinoName} rolled no mutation`)
+                .setTitle(`🧬 ${dinoName} rolled no mutation (V2)`)
                 .setDescription(`Species: **${species}**\nBetter luck next time!`)
-                .setThumbnail('https://cdn.discordapp.com/attachments/1462828823551934527/1474165187886977074/Albino.jpg') // matches style
                 .setColor(0xff0000);
 
             return interaction.reply({ embeds: [embed] });
