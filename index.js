@@ -3,7 +3,7 @@ require('dotenv').config();
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const speciesList = require('./data/species.json');
 
-const GUILD_ID = '1462820607761715409';
+const GUILD_ID = '1500120076668506112';
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds]
